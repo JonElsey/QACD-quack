@@ -12,7 +12,7 @@ def adaptive_interp(x, y, max_extra):
     npts = len(x)
     diff = np.absolute(np.diff(y))
     normalised_diff = diff / diff.max()  # In range 0 to 1.
-    extras = (normalised_diff*max_extra).astype(np.int)  # In range 0 to max_extra.
+    extras = (normalised_diff*max_extra).astype(int)  # In range 0 to max_extra.
     extra_points = extras.sum() or 0
     new_npts = npts + extra_points
     new_x = np.empty(new_npts)
@@ -48,30 +48,30 @@ def apply_correction_model(correction_model, element_or_preset_name, array):
 
 def calculate_region_ellipse(x, y, centre, size):
     # Return boolean array of same shape as x and y.
-    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (npoints, 2)
+    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (ints, 2)
     ellipse = Ellipse(centre, width=size[0], height=size[1])
-    region = ellipse.contains_points(xy)           # Shape (2*npoints)
-    region.shape = x.shape                         # Shape (npoints, 2)
+    region = ellipse.contains_points(xy)           # Shape (2*ints)
+    region.shape = x.shape                         # Shape (ints, 2)
     return region
 
 
 def calculate_region_polygon(x, y, points):
     # Return boolean array of same shape as x and y.
-    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (npoints, 2)
+    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (ints, 2)
     polygon = Polygon(points, closed=False)        # Already closed.
-    region = polygon.contains_points(xy)           # Shape (2*npoints)
-    region.shape = x.shape                         # Shape (npoints, 2)
+    region = polygon.contains_points(xy)           # Shape (2*ints)
+    region.shape = x.shape                         # Shape (ints, 2)
     return region
 
 
 def calculate_region_rectangle(x, y, corner0, corner1):
     # Return boolean array of same shape as x and y.
-    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (npoints, 2)
+    xy = np.stack((x.ravel(), y.ravel()), axis=1)  # Shape (ints, 2)
     rectangle = Rectangle(corner0,
                           width=corner1[0]-corner0[0],
                           height=corner1[1]-corner0[1])
-    region = rectangle.contains_points(xy)         # Shape (2*npoints)
-    region.shape = x.shape                         # Shape (npoints, 2)
+    region = rectangle.contains_points(xy)         # Shape (2*ints)
+    region.shape = x.shape                         # Shape (ints, 2)
     return region
 
 
@@ -112,7 +112,7 @@ def get_mask_extent(mask):
 # finite numbers.  scipy.ndimage.filters.generic_filter using np.nanmedian works
 # correctly but is very slow.  Here using explicit loops but sped up using
 # numba.
-@numba.jit
+@numba.jit(nopython = True)
 def median_filter_with_nans(input_array):
     ny, nx = input_array.shape
     output_array = np.empty_like(input_array)

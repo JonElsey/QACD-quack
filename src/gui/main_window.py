@@ -581,10 +581,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow, DisplayOptionsListener):
                         ((imin, imax), (jmin, jmax)) = pixel_zoom
                         subarray = subarray[jmin:jmax, imin:imax]
 
-                    if subarray.dtype == np.bool:
+                    if subarray.dtype == np.bool_:
                         subarray = np.ma.filled(subarray, 0)
                     else:
-                        if subarray.dtype in (np.int8, np.uint8):
+                        if subarray.dtype in (np.int8, np.unp.int8):
                             subarray = subarray.astype(np.int32)
                         subarray = np.ma.filled(subarray, no_data_value)
 
@@ -794,7 +794,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow, DisplayOptionsListener):
             value = stats.get(name)
             if value is None:
                 ret = ''
-            elif isinstance(value, np.float):
+            elif isinstance(value, np.float64):
                 if int(value) == value:
                     value = int(value)
                 else:

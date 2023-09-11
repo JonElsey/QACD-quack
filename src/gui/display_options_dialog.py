@@ -214,7 +214,7 @@ class DisplayOptionsDialog(QtWidgets.QDialog, Ui_DisplayOptionsDialog):
 
         cmap = cm.get_cmap(name)
         c = cmap(np.linspace(0.0, 1.0, w))
-        c = (255*c[:, :3]).astype(np.uint32)
+        c = (255*c[:, :3]).astype(np.unp.int32)
         rgb = np.bitwise_or(np.left_shift(c[:, 0], 16),
                             np.bitwise_or(np.left_shift(c[:, 1], 8), c[:, 2]))
         rgb = np.tile(rgb, (h, 1))  # rgb shape is (h, w)

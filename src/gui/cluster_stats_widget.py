@@ -6,7 +6,6 @@ from matplotlib.figure import Figure
 import numpy as np
 from PyQt5 import QtWidgets
 
-
 class ClusterStatsWidget(QtWidgets.QWidget):
     def __init__(self, parent):
         super(ClusterStatsWidget, self).__init__(parent)
@@ -94,15 +93,25 @@ class ClusterStatsWidget(QtWidgets.QWidget):
                 sorted_indices = np.argsort(self._centroids[:, i])
                 for k in sorted_indices:
                     x = self._centroids[k, i]
-                    w = self._triangle_width*np.diff(self._limits[i])
-                    symbol = ax.fill([x-w/2, x+w/2, x], [0, 0, 1], lw=None,
-                                     edgecolor=None, color=self._colours[k])[0]
-                    self._symbols[k].append(symbol)
+                    # JE - added [0] to unpack w as this was causing an error otherwise
+                    w = self._triangle_width*np.diff(self._limits[i])[0]
+
+                    # print(np.shape([x-w/2, x+w/2, x]))
+                    # print(np.shape([0, 0, 1]))
+                    try:
+                        symbol = ax.fill([x-w/2, x+w/2, x], [0, 0, 1], lw=None,
+                                         edgecolor=None, color=self._colours[k])[0]
+                        self._symbols[k].append(symbol)
+                    except Exception as e:
+                        print(e)
             else:
                 for k in range(self._k):
-                    symbol = ax.axvline(self._centroids[k, i],
-                                        c=self._colours[k], lw=3)
-                    self._symbols[k].append(symbol)
+                    try:
+                        symbol = ax.axvline(self._centroids[k, i],
+                                            c=self._colours[k], lw=3)
+                        self._symbols[k].append(symbol)
+                    except Exception as e:
+                        print(e)
 
             ax.set_xlim(self._limits[i])
             if self._want_triangles:

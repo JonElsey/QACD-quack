@@ -32,7 +32,7 @@ class ScaleBar(matplotlib.offsetbox.AnchoredOffsetbox):
         rectangle = Rectangle((0, 0), width=size, height=extent, fc=fc, ec=ec)
         size_bar.add_artist(rectangle)
 
-        text = matplotlib.offsetbox.TextArea(label, minimumdescent=False,
+        text = matplotlib.offsetbox.TextArea(label, 
                                              textprops={'color': fc})
         path_effects = [Stroke(linewidth=2, foreground=ec, alpha=0.75), Normal()]
         text._text.set_path_effects(path_effects)

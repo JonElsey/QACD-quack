@@ -146,7 +146,7 @@ class NewPhaseClusterDialog(QtWidgets.QDialog, Ui_NewPhaseClusterDialog):
             row = self.nvalues-1 - value
 
             rgba = np.asarray(cmap(value)[:3])*255.0
-            rgba = rgba.astype(np.int)
+            rgba = rgba.astype(int)
             pixmap = QtGui.QPixmap(pixmap_size[0], pixmap_size[1])
             pixmap.fill(QtGui.QColor(rgba[0], rgba[1], rgba[2], 255))
 

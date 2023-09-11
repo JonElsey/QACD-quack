@@ -19,7 +19,7 @@ class ClusterStatsDialog(QtWidgets.QDialog, Ui_ClusterStatsDialog):
         self._cmap = cmap
         self._elements, self._centroids = \
             self._project.get_cluster_centroids(self._k)
-        self._show_cluster = np.ones(self._k, dtype=np.bool)
+        self._show_cluster = np.ones(self._k, dtype=np.bool_)
 
         self._latest_callback_data = None
 
@@ -42,7 +42,7 @@ class ClusterStatsDialog(QtWidgets.QDialog, Ui_ClusterStatsDialog):
         table.setColumnCount(nelements+1)
 
         colours = self._cmap(np.arange(self._k) / (self._k-1.0))
-        colours = (np.asarray(colours[:, :3])*255).astype(np.int)
+        colours = (np.asarray(colours[:, :3])*255).astype(int)
         is_dark = [QtGui.qGray(*colour) < 128 for colour in colours]
         qt_colours = [QtGui.QColor(*colour) for colour in colours]
         qt_white = QtGui.QColor(255, 255, 255)

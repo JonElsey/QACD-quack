@@ -60,7 +60,7 @@ class QACDProject:
         # Add statistics of the specified array to the specified h5 file node.
         # If a mask is specified, it is applied to the array before calculating
         # the stats.
-        is_bool_array = array.dtype == np.bool
+        is_bool_array = array.dtype == np.bool_
 
         if mask is not None:
             array = np.ma.masked_array(array, mask=mask)
@@ -111,7 +111,7 @@ class QACDProject:
 
         if array.dtype in [self._raw_dtype, self._indices_dtype]:
             np.ma.set_fill_value(array, -1)
-        elif array.dtype == np.bool:
+        elif array.dtype == np.bool_:
             np.ma.set_fill_value(array, False)
         else:
             np.ma.set_fill_value(array, np.nan)
@@ -248,7 +248,7 @@ class QACDProject:
                     phase_map = np.logical_and(phase_map, within_limits)
         else:
             # Check phase map shape and dtype.
-            if phase_map.dtype != np.bool:
+            if phase_map.dtype != np.bool_:
                 raise RuntimeError('Incorrect dtype for phase {}'.format(name))
             raw_total = self.get_raw_total(masked=False)
             if phase_map.shape != raw_total.shape:
@@ -283,7 +283,7 @@ class QACDProject:
             raise RuntimeError('No original values specified')
 
         # Check phase map shape and dtype.
-        if phase_map.dtype != np.bool:
+        if phase_map.dtype != np.bool_:
             raise RuntimeError('Incorrect dtype for phase {}'.format(name))
         raw_total = self.get_raw_total(masked=False)
         if phase_map.shape != raw_total.shape:
@@ -430,7 +430,7 @@ class QACDProject:
             raise RuntimeError('No region boolean array specified')
 
         # Check region shape and dtype.
-        if region.dtype != np.bool:
+        if region.dtype != np.bool_:
             raise RuntimeError('Incorrect dtype for region {}'.format(name))
         raw_total = self.get_raw_total(masked=False)
         if region.shape != raw_total.shape:
@@ -1075,7 +1075,7 @@ class QACDProject:
                     if not all([name in attrs for name in all_stats]):
                         raise RuntimeError('Missing stats in raw {}'.format(element))
 
-                    for type_, dtype in zip(['data', 'mask'], [self._raw_dtype, np.bool]):
+                    for type_, dtype in zip(['data', 'mask'], [self._raw_dtype, np.bool_]):
                         node = h5file.get_node('/raw/{}/{}'.format(element, type_))
                         if isinstance(node, tables.link.SoftLink):
                             node = node.dereference()
@@ -1107,7 +1107,7 @@ class QACDProject:
                     if not all([name in attrs for name in all_stats]):
                         raise RuntimeError('Missing stats in filtered {}'.format(element))
 
-                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool]):
+                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool_]):
                         node = h5file.get_node('/filtered/{}/{}'.format(element, type_))
                         if isinstance(node, tables.link.SoftLink):
                             node = node.dereference()
@@ -1139,7 +1139,7 @@ class QACDProject:
                     if not all([name in attrs for name in all_stats]):
                         raise RuntimeError('Missing stats in normalised {}'.format(element))
 
-                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool]):
+                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool_]):
                         node = h5file.get_node('/normalised/{}/{}'.format(element, type_))
                         if isinstance(node, tables.link.SoftLink):
                             node = node.dereference()
@@ -1170,7 +1170,7 @@ class QACDProject:
                 if not all([name in attrs for name in all_stats]):
                     raise RuntimeError('Missing stats in h_factor')
 
-                for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool]):
+                for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool_]):
                     node = h5file.get_node('/h_factor/{}'.format(type_))
                     if isinstance(node, tables.link.SoftLink):
                         node = node.dereference()
@@ -1220,7 +1220,7 @@ class QACDProject:
 
                     self._ratios[name] = (formula, correction_model, preset)
 
-                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool]):
+                    for type_, dtype in zip(['data', 'mask'], [np.float64, np.bool_]):
                         node = h5file.get_node('/ratio/{}/{}'.format(name, type_))
                         if isinstance(node, tables.link.SoftLink):
                             node = node.dereference()
@@ -1266,7 +1266,7 @@ class QACDProject:
                     if not all([name in attrs for name in indices_stats]):
                         raise RuntimeError('Missing stats in cluster indices {}'.format(k))
 
-                    for type_, dtype in zip(['data', 'mask'], [self._indices_dtype, np.bool]):
+                    for type_, dtype in zip(['data', 'mask'], [self._indices_dtype, np.bool_]):
                         node = h5file.get_node(indices, type_)
                         if isinstance(node, tables.link.SoftLink):
                             node = node.dereference()
@@ -1322,7 +1322,7 @@ class QACDProject:
 
                     # Check array.
                     node = h5file.get_node(phase_node, 'data')
-                    if node.dtype != np.bool:
+                    if node.dtype != np.bool_:
                         raise RuntimeError('Incorrect dtype for phase {}'.format(name))
                     if node.shape != shape:
                         raise RuntimeError('Incorrect shape for phase {}'.format(name))
@@ -1355,7 +1355,7 @@ class QACDProject:
 
                     # Check array.
                     node = h5file.get_node(region_node, 'data')
-                    if node.dtype != np.bool:
+                    if node.dtype != np.bool_:
                         raise RuntimeError('Incorrect dtype for region {}'.format(name))
                     if node.shape != shape:
                         raise RuntimeError('Incorrect shape for region {}'.format(name))

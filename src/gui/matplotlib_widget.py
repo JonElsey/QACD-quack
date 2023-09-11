@@ -445,7 +445,7 @@ class MatplotlibWidget(QtWidgets.QWidget, DisplayOptionsListener):
     def get_transect_at_lambda(self, lambda_):
         if self._transect is not None:
             points = self._map_line_points
-            xy = (points[0] + lambda_*(points[1] - points[0])).astype(np.int)
+            xy = (points[0] + lambda_*(points[1] - points[0])).astype(int)
             x, y = xy
             value = self.get_value_at_position(x, y)
             return [x, y, value]
