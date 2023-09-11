@@ -296,7 +296,7 @@ def consistency_impl(directory, pixel_totals, median):
     assert p.phases[name] == ('thresholding', elements_and_thresholds)
 
     mask = phase == False
-    check_masked_array(phase, (ny, nx), np.bool, mask, False)
+    check_masked_array(phase, (ny, nx), np.bool_, mask, False)
     check_stats(phase, phase_stats, 'invalid valid')
 
     # Phase map from cluster.
@@ -313,7 +313,7 @@ def consistency_impl(directory, pixel_totals, median):
     assert p.phases[name] == ('cluster', k, original_values)
 
     mask = phase == False
-    check_masked_array(phase, (ny, nx), np.bool, mask, False)
+    check_masked_array(phase, (ny, nx), np.bool_, mask, False)
     check_stats(phase, phase_stats, 'invalid valid')
 
     # Region.
@@ -326,7 +326,7 @@ def consistency_impl(directory, pixel_totals, median):
     assert shape == shape_string
 
     mask = region == False
-    check_masked_array(region, (ny, nx), np.bool, mask, False)
+    check_masked_array(region, (ny, nx), np.bool_, mask, False)
     check_stats(region, region_stats, 'invalid valid')
 
     # Display options.
